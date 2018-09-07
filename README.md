@@ -1,4 +1,4 @@
-# another_set_of_rscripts_for_genomics
+# ASoR4G (whatever): Another set of rscripts for genomics
 
 Currently a work in progress, don't pay attention please.
 
