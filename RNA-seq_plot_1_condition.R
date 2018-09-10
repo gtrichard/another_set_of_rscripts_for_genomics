@@ -112,16 +112,13 @@ lines[[2]]$line$color="rgba(0,0,0,0.3)"
 lines[[1]]$line$dash="dash"
 lines[[2]]$line$dash="dash"
 
-pf<-layout(p,shapes=lines,xaxis = list(title = "Log2(KO/Control)"), yaxis = list(title = "-Log10(adj. P-value)"))
+pf<-layout(p1,shapes=lines,xaxis = list(title = "Log2(KO/Control)"), yaxis = list(title = "-Log10(adj. P-value)"))
 
-chart_link = api_create(p, filename = "public-graph")
-chart_link
+htmlwidgets::saveWidget(as_widget(pf), paste(output, ".html", sep=""))
 
 Sys.setenv("plotly_username"="blabla")
 Sys.setenv("plotly_api_key"="lookituponline")
 api_create(pf, filename = "KO_control_RNA-seq")
-
-htmlwidgets::saveWidget(as_widget(p1), paste(output, ".html", sep=""))
 
 cat("Done! The graphic is stored in ", output,".html (", as.character(Sys.time()),")","\n", "Enjoy your data exploration now :)", "\n", sep="")
 quit()
