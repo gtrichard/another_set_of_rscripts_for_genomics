@@ -91,19 +91,20 @@ p1<-plot_ly(data = merged,
             opacity = 0.8,
             color = merged$group,
             text =  ~paste('<b>Name: </b>', merged$genes,
-#                           '</br><b>Description: </b>', merged$desc,
-                           '</br><b>p-value MOF: </b>', merged$pval,
-                           '</br><b>p-value K2: </b>', merged$group,
+#  Gene description if you have it '</br><b>Description: </b>', merged$desc,
+                           '</br><b>p-value: </b>', merged$pval,
+                           '</br><b>DE group: </b>', merged$group,
                            '</br><b>GOs: </b>', merged$GO))
 
 
 line <- list()
+lines <- list()
 for (i in c(FC_thresh, FC_thresh_minus)) {
   line[["x0"]] <- i
   line[["x1"]] <- i
   line[["y0"]] <- 0
   line[["y1"]] <- 250
-  lines <- c(lines, list(line))
+  lines <- c(lines,list(line))
 }
 
 lines[[1]]$line$color="rgba(0,0,0,0.3)"
