@@ -105,7 +105,7 @@ for (i in c(FC_thresh, FC_thresh_minus)) {
   line[["x0"]] <- i
   line[["x1"]] <- i
   line[["y0"]] <- 0
-  line[["y1"]] <- 250
+  line[["y1"]] <- max(-log(merged$pval,10))
   lines <- c(lines,list(line))
 }
 
