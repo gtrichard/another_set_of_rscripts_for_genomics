@@ -30,8 +30,6 @@ merged[,"group"]<-as.factor(merged[,"group"])
 cat("Done! (", as.character(Sys.time()),")","\n", "Number of genes in each category:","\n")
 summary(as.factor(merged$group))
 
-
-
 cat("Loading GO annotations, this will take some time... (", as.character(Sys.time()),")","\n")
 ##### GOID importation
 
@@ -60,11 +58,11 @@ cat("Done! Plotting the data now... (", as.character(Sys.time()),")","\n")
 ##### Plot
 
 # Font style for axis titles
-f1 <- list(
-family = "Arial, sans-serif",
-size = 15,
-color = "black"
-)
+#f1 <- list(
+#family = "Arial, sans-serif",
+#size = 15,
+#color = "black"
+#)
 
 # X axis
 #b <- list(
@@ -112,13 +110,18 @@ lines[[2]]$line$color="rgba(0,0,0,0.3)"
 lines[[1]]$line$dash="dash"
 lines[[2]]$line$dash="dash"
 
-pf<-layout(p1,shapes=lines,xaxis = list(title = "Log2(KO/Control)"), yaxis = list(title = "-Log10(adj. P-value)"))
+pf<-layout(p1,shapes=lines,
+           xaxis = list(title = "Log2(KO/Control)"), 
+           yaxis = list(title = "-Log10(adj. P-value)"))
 
 htmlwidgets::saveWidget(as_widget(pf), paste(output, ".html", sep=""))
+
+cat("Done! The graphic is stored in ", output,".html (", as.character(Sys.time()),")","\n", "Enjoy your data exploration now :)", "\n", sep="")
+quit()
+
+# You can export that plot to your online plotly account. Create an account there and retrieve
+# your API key to use that function
 
 Sys.setenv("plotly_username"="blabla")
 Sys.setenv("plotly_api_key"="lookituponline")
 api_create(pf, filename = "KO_control_RNA-seq")
-
-cat("Done! The graphic is stored in ", output,".html (", as.character(Sys.time()),")","\n", "Enjoy your data exploration now :)", "\n", sep="")
-quit()
