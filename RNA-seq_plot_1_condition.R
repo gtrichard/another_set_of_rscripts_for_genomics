@@ -114,7 +114,9 @@ pf<-layout(p1,shapes=lines,
            xaxis = list(title = "Log2(KO/Control)"), 
            yaxis = list(title = "-Log10(adj. P-value)"))
 
-htmlwidgets::saveWidget(as_widget(pf), paste(output, ".html", sep=""))
+pf #Display the plot within RStudio
+
+htmlwidgets::saveWidget(as_widget(pf), paste(output, ".html", sep="")) #Save the plot in current working directory as .html file
 
 cat("Done! The graphic is stored in ", output,".html (", as.character(Sys.time()),")","\n", "Enjoy your data exploration now :)", "\n", sep="")
 quit()
