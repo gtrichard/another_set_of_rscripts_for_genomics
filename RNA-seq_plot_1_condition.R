@@ -15,7 +15,7 @@ library('plotly')
 setwd("")
 
 table1<-read.csv(file="", sep="\t",header=T)
-table1<-data.frame(table1$ID,table1$name,table1$log2FoldChange,table1$padj,table1$Complex)
+table1<-data.frame(table1$ID,table1$name,table1$log2FoldChange,table1$padj)
 colnames(table1)<-c("ID", "genes","FC","pval")
 
 pval_thresh=0.05
