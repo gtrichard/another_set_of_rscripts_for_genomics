@@ -1,4 +1,8 @@
 #### RNA-seq_plot_1_condition.R
+## This script allows you to plot a nice interactive Volcano Plot.
+## Gene names, GO term and gene description are aumotically retrieved 
+## from the Ensembl Genes ID given as input, alongside their FC and 
+## p-value after DEG Analysis.
 
 # install.packages('plotly')
 # source("https://bioconductor.org/biocLite.R")
