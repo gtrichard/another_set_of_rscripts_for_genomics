@@ -44,14 +44,14 @@ ensembl = useDataset("ecaballus_gene_ensembl",mart=ensembl) #import dmel dataset
 attributes = listAttributes(ensembl) #list of attributes you can use for your query
 
 # here we do the query to generate the raw GO annotation table
-goids <- getBM(attributes = c('ensembl_gene_id','name_1006', 'go_linkage_type'),
-mart = ensembl)
+goids <- getBM(attributes = c('ensembl_gene_id','name_1006','namespace_1003'),mart = ensembl)
+GO<-goids[which(goids$namespace_1003=="biological_process"),c(1,2)]
 
 #  Merging of GO names and evidence code in the same cell
-GO<-cbind(goids$ensembl_gene_id,paste(goids$name_1006,"(",goids$go_linkage_type,")",sep = "" ))
+# GO<-cbind(goids$ensembl_gene_id,paste(goids$name_1006,"(",goids$go_linkage_type,")",sep = "" ))
 
 # Aggregation of all GO information per gene, ",</br>" is used afterward by plot_ly for text display
-GO<-aggregate(GO[,2]~GO[,1], GO, paste, collapse=",</br>")
+GO<-aggregate(GO[,2]~GO[,1], GO, paste, collapse=", ")
 GO[,1]<-as.factor(GO[,1])
 colnames(GO)<-c("ID",'GO')
 
@@ -87,16 +87,22 @@ cat("Done! Plotting the data now... (", as.character(Sys.time()),")","\n")
 library('plotly')
 
 p1<-plot_ly(data = merged,
+            domain=c(-2,2),
             x = merged$FC,
             y = -log(merged$pval,10),
             mode = "markers",
+            trace = "scatter",
             opacity = 0.8,
-            color = merged$group,
+            color = merged$complex,
+#            hoverinfo= "x+y+text",
+            textposition= "outside",
+            colors = c("#999999", "#FF4C85", "#B7002A", "#FF4747", "#FFAC59", "#FF6B1C"),
+#            colors = c("#999999", "#7C75FF", "#FF59D5", "#FFB638", "#51B6FF", "#FF4747"),
             text =  ~paste('<b>Name: </b>', merged$genes,
-#  Gene description if you have it '</br><b>Description: </b>', merged$desc,
-                           '</br><b>p-value: </b>', merged$pval,
-                           '</br><b>DE group: </b>', merged$group,
-                           '</br><b>GOs: </b>', merged$GO))
+#                           '</br><b>Description: </b>', merged$desc,
+#                           '</br><b>p-value: </b>', merged$pval,
+#                           '</br><b>DEG-type: </b>', merged$group,
+                           '</br><b>GOs: </b>', merged$GO_new))
 
 
 line <- list()
