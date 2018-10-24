@@ -57,6 +57,9 @@ colnames(GO)<-c("ID",'GO')
 
 merged<-merge(merged,GO,by="ID",all.x = T)
 
+# Add a line break every 100 characters to avoid display issues in plotly
+merged["GO_new"]<-gsub("(.{100})", "\\1</br>", merged$GO) 
+
 cat("Done! Plotting the data now... (", as.character(Sys.time()),")","\n")
 
 ##### Plot
