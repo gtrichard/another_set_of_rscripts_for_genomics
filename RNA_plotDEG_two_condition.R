@@ -93,29 +93,31 @@ cat("Done! (", as.character(Sys.time()),")","\n", "Number of genes in each categ
 summary(as.factor(merged$group))
 
 
-
 cat("Loading GO annotations, this will take some time... (", as.character(Sys.time()),")","\n")
 ##### GOID importation
 
 ensembl=useMart("ensembl") #load ensembl db
 #check for available datasets and their name
 listDatasets(ensembl)
-ensembl = useDataset(args[9],mart=ensembl) #import dmel datasets
+ensembl = useDataset("ecaballus_gene_ensembl",mart=ensembl) #import dmel datasets
 attributes = listAttributes(ensembl) #list of attributes you can use for your query
 
 # here we do the query to generate the raw GO annotation table
-goids <- getBM(attributes = c('ensembl_gene_id','name_1006', 'go_linkage_type'),
-mart = ensembl)
+goids <- getBM(attributes = c('ensembl_gene_id','name_1006','namespace_1003'),mart = ensembl)
+GO<-goids[which(goids$namespace_1003=="biological_process"),c(1,2)]
 
 #  Merging of GO names and evidence code in the same cell
-GO<-cbind(goids$ensembl_gene_id,paste(goids$name_1006,"(",goids$go_linkage_type,")",sep = ""))
+# GO<-cbind(goids$ensembl_gene_id,paste(goids$name_1006,"(",goids$go_linkage_type,")",sep = "" ))
 
 # Aggregation of all GO information per gene, ",</br>" is used afterward by plot_ly for text display
-GO<-aggregate(GO[,2]~GO[,1], GO, paste, collapse=",</br>")
+GO<-aggregate(GO[,2]~GO[,1], GO, paste, collapse=", ")
 GO[,1]<-as.factor(GO[,1])
-colnames(GO)<-c('rows','GO')
+colnames(GO)<-c("ID",'GO')
 
-merged<-merge(merged,GO,by="rows",all.x = T)
+merged<-merge(merged,GO,by="ID",all.x = T)
+
+# Add a line break every 100 characters to avoid display issues in plotly
+merged["GO_new"]<-gsub("(.{100})", "\\1</br>", merged$GO) 
 
 cat("Done! Plotting the data now... (", as.character(Sys.time()),")","\n")
 
