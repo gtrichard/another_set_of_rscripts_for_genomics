@@ -148,16 +148,20 @@ exponentformat = "E"
 
 
 p1<-plot_ly(data = merged,
+domain=c(-2,2),
 x = merged$FC.x,
 y = merged$FC.y,
 mode = "markers",
+trace = "scatter",
 opacity = 0.6,
 color = merged$group,
-text =  ~paste('<b>Name: </b>', merged$genes.y,
-'</br><b>Description: </b>', merged$desc.y,
-'</br><b>p-value MOF: </b>', merged$pval.x,
-'</br><b>p-value K2: </b>', merged$pval.y,
-'</br><b>GOs: </b>', merged$GO)) %>%
+textposition= "outside",
+colors = c("#999999", "#FF4C85", "#B7002A", "#FF4747", "#FFAC59", "#FF6B1C"),
+text =  ~paste('<b>Name: </b>', merged$genes,
+#                           '</br><b>Description: </b>', merged$desc,
+#                           '</br><b>p-value: </b>', merged$pval,
+#                           '</br><b>DEG-type: </b>', merged$group,
+                           '</br><b>GOs: </b>', merged$GO_new)))) %>%
 layout(title = paste(name1, " vs ", name2, sep="")) %>%
 layout(xaxis=b) %>%
 layout(yaxis=c)
